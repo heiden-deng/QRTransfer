@@ -1,0 +1,10 @@
+com/willswill/qrtunnel/core/FileInfo.class
+com/willswill/qrtunnel/core/DecodeException.class
+com/willswill/qrtunnel/core/AppConfigs.class
+com/willswill/qrtunnel/core/Encoder.class
+com/willswill/qrtunnel/core/Util.class
+com/willswill/qrtunnel/core/SenderLayout.class
+com/willswill/qrtunnel/core/EncoderCallback.class
+com/willswill/qrtunnel/core/Decoder.class
+com/willswill/qrtunnel/core/DecoderCallback.class
+com/willswill/qrtunnel/core/Const.class
