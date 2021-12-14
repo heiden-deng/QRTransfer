@@ -1,3 +1,5 @@
+fork 自 qr-tunnel 项目进行修改
+
 # qrtunnel
 A fancy way to transfer files, via QR code!
 
