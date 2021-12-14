@@ -80,11 +80,7 @@ public class Encoder {
             running = true;
             int num = 1;
             while (running && inputStream.available() > 0) {
-                try {
-                    Thread.sleep(appConfigs.getSendInterval());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 int len = inputStream.read(buf, 20, appConfigs.getChunkSize());
                 if (len > 0) {
                     log.info("Send chunk " + (num));

@@ -84,7 +84,11 @@ public class SenderForm {
                     imageIndex = num;
                     updateProgress();
                     imageViewList.get(num % imageViewList.size()).setImage(image);
-
+                    try {
+                        Thread.sleep(Launcher.getAppConfigs().getSendInterval());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 } catch (Exception e) {
                     log.error("Error displaying image", e);
                 }
