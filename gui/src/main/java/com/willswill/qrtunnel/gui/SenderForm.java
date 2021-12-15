@@ -4,10 +4,7 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.willswill.qrtunnel.core.AppConfigs;
-import com.willswill.qrtunnel.core.Encoder;
-import com.willswill.qrtunnel.core.EncoderCallback;
-import com.willswill.qrtunnel.core.FileInfo;
+import com.willswill.qrtunnel.core.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -60,6 +57,7 @@ public class SenderForm {
     public void show() {
         frame.setVisible(true);
     }
+
     public void hide() {
         frame.setVisible(false);
     }
@@ -100,6 +98,16 @@ public class SenderForm {
                 updateProgress();
                 filenameLabel.setText(fileInfo.getFilename());
                 Launcher.log("Sending file " + fileInfo.getFilename());
+            }
+        }, new LogCallback() {
+            @Override
+            public void printLog(int totalImg, int currentImg) {
+                if (currentImg == 0) {
+                    Launcher.log("Start Send file, total image: " + totalImg);
+                } else {
+                    Launcher.log(String.format("Sending file , Total img: %d, Current img:%d", totalImg, currentImg));
+                }
+
             }
         });
     }

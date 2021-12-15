@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.stream.Collectors;
 
 /**
  * @author Will
@@ -20,8 +21,11 @@ public class ConfigsForm {
     private JTextField sendIntervalTextField;
     private JComboBox senderLayoutComboBox;
     private JButton saveConfigsButton;
+    private JTextArea logView;
 
     private JFrame frame;
+
+    private final RingBuffer<String> logBuf = new RingBuffer<>(200);
 
     public static ConfigsForm create() {
         JFrame frame = new JFrame("ConfigsForm");
@@ -74,6 +78,12 @@ public class ConfigsForm {
         frame.setVisible(true);
     }
 
+    public void addLog(String s) {
+        logBuf.put(s);
+        String text = logBuf.readFully().stream().collect(Collectors.joining("\n"));
+        logView.setText(text);
+    }
+
     void saveForm() {
         AppConfigs appConfigs = Launcher.getAppConfigs();
         appConfigs.setSaveDir(saveDirTextField.getText());
@@ -115,7 +125,7 @@ public class ConfigsForm {
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
         panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
-        panel1.setPreferredSize(new Dimension(400, 250));
+        panel1.setPreferredSize(new Dimension(400, 550));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
         panel2.setBackground(new Color(-8019262));
@@ -151,6 +161,9 @@ public class ConfigsForm {
         if (label3Font != null) label3.setFont(label3Font);
         label3.setText("Sender Configs");
         panel4.add(label3);
+        final JLabel label4 = new JLabel();
+        label4.setText("Label");
+        panel4.add(label4);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
         panel5.setPreferredSize(new Dimension(400, 100));
@@ -158,44 +171,44 @@ public class ConfigsForm {
         final JPanel panel6 = new JPanel();
         panel6.setLayout(new BorderLayout(5, 0));
         panel5.add(panel6);
-        final JLabel label4 = new JLabel();
-        label4.setHorizontalAlignment(4);
-        label4.setPreferredSize(new Dimension(120, 17));
-        label4.setText("Image Width");
-        panel6.add(label4, BorderLayout.WEST);
+        final JLabel label5 = new JLabel();
+        label5.setHorizontalAlignment(4);
+        label5.setPreferredSize(new Dimension(120, 17));
+        label5.setText("Image Width");
+        panel6.add(label5, BorderLayout.WEST);
         imageWidthTextField = new JTextField();
         imageWidthTextField.setPreferredSize(new Dimension(50, 24));
         panel6.add(imageWidthTextField, BorderLayout.CENTER);
         final JPanel panel7 = new JPanel();
         panel7.setLayout(new BorderLayout(5, 0));
         panel5.add(panel7);
-        final JLabel label5 = new JLabel();
-        label5.setHorizontalAlignment(4);
-        label5.setPreferredSize(new Dimension(120, 17));
-        label5.setText("Chunk Size");
-        panel7.add(label5, BorderLayout.WEST);
+        final JLabel label6 = new JLabel();
+        label6.setHorizontalAlignment(4);
+        label6.setPreferredSize(new Dimension(120, 17));
+        label6.setText("Chunk Size");
+        panel7.add(label6, BorderLayout.WEST);
         chunkSizeTextField = new JTextField();
         chunkSizeTextField.setPreferredSize(new Dimension(50, 24));
         panel7.add(chunkSizeTextField, BorderLayout.CENTER);
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new BorderLayout(5, 0));
         panel5.add(panel8);
-        final JLabel label6 = new JLabel();
-        label6.setHorizontalAlignment(4);
-        label6.setPreferredSize(new Dimension(120, 17));
-        label6.setText("Send Interval (ms)");
-        panel8.add(label6, BorderLayout.WEST);
+        final JLabel label7 = new JLabel();
+        label7.setHorizontalAlignment(4);
+        label7.setPreferredSize(new Dimension(120, 17));
+        label7.setText("Send Interval (ms)");
+        panel8.add(label7, BorderLayout.WEST);
         sendIntervalTextField = new JTextField();
         sendIntervalTextField.setPreferredSize(new Dimension(50, 24));
         panel8.add(sendIntervalTextField, BorderLayout.CENTER);
         final JPanel panel9 = new JPanel();
         panel9.setLayout(new BorderLayout(5, 0));
         panel5.add(panel9);
-        final JLabel label7 = new JLabel();
-        label7.setHorizontalAlignment(4);
-        label7.setPreferredSize(new Dimension(120, 17));
-        label7.setText("Sender Layout");
-        panel9.add(label7, BorderLayout.WEST);
+        final JLabel label8 = new JLabel();
+        label8.setHorizontalAlignment(4);
+        label8.setPreferredSize(new Dimension(120, 17));
+        label8.setText("Sender Layout");
+        panel9.add(label8, BorderLayout.WEST);
         senderLayoutComboBox = new JComboBox();
         final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
         defaultComboBoxModel1.addElement("1*1");
@@ -223,6 +236,30 @@ public class ConfigsForm {
         saveConfigsButton = new JButton();
         saveConfigsButton.setText("Save Configs");
         panel10.add(saveConfigsButton);
+        final JPanel panel11 = new JPanel();
+        panel11.setLayout(new GridBagLayout());
+        panel1.add(panel11);
+        final JLabel label9 = new JLabel();
+        label9.setText("日志");
+        GridBagConstraints gbc;
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel11.add(label9, gbc);
+        final JScrollPane scrollPane1 = new JScrollPane();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel11.add(scrollPane1, gbc);
+        logView = new JTextArea();
+        logView.setColumns(30);
+        logView.setRows(13);
+        scrollPane1.setViewportView(logView);
     }
 
     /**

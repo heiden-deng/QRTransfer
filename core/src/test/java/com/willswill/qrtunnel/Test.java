@@ -1,9 +1,6 @@
 package com.willswill.qrtunnel;
 
-import com.willswill.qrtunnel.core.AppConfigs;
-import com.willswill.qrtunnel.core.Decoder;
-import com.willswill.qrtunnel.core.Encoder;
-import com.willswill.qrtunnel.core.EncoderCallback;
+import com.willswill.qrtunnel.core.*;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,6 +26,11 @@ public class Test {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+        }, new LogCallback() {
+            @Override
+            public void printLog(int totalImg, int currentImg) {
+
             }
         });
 

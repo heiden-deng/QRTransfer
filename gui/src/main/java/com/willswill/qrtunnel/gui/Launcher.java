@@ -51,7 +51,7 @@ public class Launcher {
     }
 
     public static void log(String s) {
-        self.receiverForm.addLog(s);
+        self.configsForm.addLog(s);
     }
 
     private void loadConfigs() {
@@ -83,4 +83,7 @@ public class Launcher {
         }
         configsForm.show();
     }
+
+
+
 }

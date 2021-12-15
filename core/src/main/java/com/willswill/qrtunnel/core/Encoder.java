@@ -36,9 +36,12 @@ public class Encoder {
     private EncoderCallback callback;
     private boolean running;
 
-    public Encoder(AppConfigs appConfigs, EncoderCallback callback) {
+    private LogCallback logCallback;
+
+    public Encoder(AppConfigs appConfigs, EncoderCallback callback, LogCallback logCallback) {
         this.appConfigs = appConfigs;
         this.callback = callback;
+        this.logCallback = logCallback;
 
         buf = new byte[appConfigs.getChunkSize() + 20];
         crc32 = new CRC32();
@@ -61,6 +64,10 @@ public class Encoder {
 
         if (callback != null) {
             callback.fileBegin(fileInfo);
+        }
+
+        if (logCallback != null){
+            logCallback.printLog(fileInfo.getChunkCount(), 0);
         }
 
         // file info
@@ -86,6 +93,10 @@ public class Encoder {
                     log.info("Send chunk " + (num));
 
                     encode(Const.VERSION_1 | Const.TYPE_DATA, num, len);
+
+                    if (logCallback != null){
+                        logCallback.printLog(fileInfo.getChunkCount(), num);
+                    }
                 }
                 num++;
             }
